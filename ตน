@@ -1,0 +1,84 @@
+void main() {
+  List<MenuItem> menuItems = [];
+
+  // Create
+  void createMenuItem({required String name, required double price, required String category}) {
+    menuItems.add(MenuItem(name: name, price: price, category: category));
+  }
+
+  // Read all
+  List<MenuItem> getAllMenuItems() {
+    return menuItems;
+  }
+
+  // Read by name
+  MenuItem? getMenuItemByName(String name) {
+    return menuItems.firstWhere((item) => item.name == name, orElse: null);
+  }
+
+  // Update
+  void updateMenuItem({required String name, required double price, required String category}) {
+    var item = getMenuItemByName(name);
+    if (item != null) {
+      item.price = price;
+      item.category = category;
+    }
+  }
+
+  // Delete
+  void deleteMenuItem(String name) {
+    menuItems.removeWhere((item) => item.name == name);
+  }
+
+  // Search by category
+  List<MenuItem> searchMenuItemsByCategory(String category) {
+    return menuItems.where((item) => item.category == category).toList();
+  }
+
+  // สร้างรายการอาหาร
+  createMenuItem(name: 'ต้มยำกุ้ง', price: 150, category: 'meal');
+  createMenuItem(name: 'ชาไทย', price: 45, category: 'drink');
+  createMenuItem(name: 'ข้าวเหนียวมะม่วง', price: 80, category: 'dessert');
+
+  // อ่านรายการอาหารทั้งหมด
+  print('Menu:');
+  for (var item in getAllMenuItems()) {
+    print(item);
+  }
+
+  // อ่านรายการอาหารจากชื่อ
+  print('ค้นหาจากชื่อรายการอาหาร "ชาไทย":');
+  var greenCurry = getMenuItemByName('ชาไทย');
+  if (greenCurry != null) {
+    print(greenCurry);
+  } else {
+    print('ไม่พบรายการอาหาร');
+  }
+
+  // อัพเดตราคาของต้มยำกุ้ง
+  print('อัพเดตราคาของต้มยำกุ้งเป็น 180 บาท');
+  updateMenuItem(name: 'ต้มยำกุ้ง', price: 180, category: 'meal');
+
+  // อ่านรายการอาหารทั้งหมดอีกครั้งหลังอัพเดต
+  print('รายการอาหารทั้งหมดหลังอัพเดต:');
+  for (var item in getAllMenuItems()) {
+    print(item);
+  }
+
+  // ลบรายการอาหาร
+  print('ลบรายการอาหาร "ข้าวเหนียวมะม่วง":');
+  deleteMenuItem('ข้าวเหนียวมะม่วง');
+
+  // อ่านรายการอาหารทั้งหมดอีกครั้งหลังลบ
+  print('รายการอาหารทั้งหมดหลังลบ:');
+  for (var item in getAllMenuItems()) {
+    print(item);
+  }
+
+  // ค้นหาตามหมวดหมู่
+  print('ค้นหารายการอาหารในหมวดหมู่ "meal":');
+  var savoryItems = searchMenuItemsByCategory('meal');
+  for (var item in savoryItems) {
+    print(item);
+  }
+}
